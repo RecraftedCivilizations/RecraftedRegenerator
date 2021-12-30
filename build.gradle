@@ -1,0 +1,103 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '+'
+    id 'org.jetbrains.dokka' version '+'
+    id 'maven-publish'
+}
+
+group 'com.github.recraftedcivilizations'
+version '1.0-SNAPSHOT'
+
+// Custom settings that will go into the plugin.yml
+// and will be used for publishing
+def pluginName = ''
+def author = []
+// Leave null for the latest API or fill in your wanted API version eg. 1.18
+def apiVersion = null
+
+// Base repos
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
+    }
+}
+
+//=====================================Dependencies=====================================//
+
+// Kotlin stuff
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+// Minecraft deps
+dependencies {
+    // If the version is null we get the newest one
+    if(apiVersion == null){
+        implementation 'org.spigotmc:spigot-api:+'
+        testImplementation 'org.spigotmc:spigot-api:+'
+    }else{
+        // Else we get the defined one
+        implementation 'org.spigotmc:spigot-api:${apiVersion}'
+        testImplementation 'org.spigotmc:spigot-api:${apiVersion}'
+    }
+
+
+}
+//======================================================================================//
+
+test {
+    useJUnitPlatform()
+}
+
+processResources {
+    // If the version is undefined we want to find the version gradle got
+    if (apiVersion == null){
+        // So find the module at runtime level and get the version
+        apiVersion = configurations.runtimeClasspath.resolvedConfiguration.firstLevelModuleDependencies.findAll {
+            it.moduleName == "spigot-api"}[0].moduleVersion
+    }
+
+    filesMatching('plugin.yml'){
+        // Expand all variables and get the numerical only api version
+        expand([pluginName: pluginName, version: version, author: author, api: apiVersion.split('-')[0]])
+    }
+
+}
+
+// Jvm Target
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+// Publishing
+publishing {
+    publications {
+        recraftedCore(MavenPublication) {
+            groupId = this.group
+            artifactId = pluginName
+            version = this.version
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name = 'RecraftedCivilizations'
+            //credentials(PasswordCredentials)
+            url = 'https://repo.repsy.io/mvn/darkvanityoflight/recraftedcivilizations'
+
+            credentials {
+                username project.RecraftedCivilizationsUsername
+                password project.RecraftedCivilizationsPassword
+            }
+        }
+    }
+}

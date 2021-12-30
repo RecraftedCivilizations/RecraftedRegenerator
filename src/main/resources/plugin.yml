@@ -1,0 +1,7 @@
+name: ${pluginName}
+main: com.github.recraftedcivilizations.${pluginName}
+softdepend: []
+version: ${version}
+author: ${author}
+api-version: ${api-version}
+description:
