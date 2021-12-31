@@ -10,7 +10,7 @@ class Regenerator(private val dataParser: DataParser, private val configParser: 
 
     override fun run() {
 
-        val toRespawn = dataParser.getBlocksToRespawn()
+        val toRespawn = dataParser.getBlocksToRespawn().toMap()
 
         for((location, time) in toRespawn.entries){
 
