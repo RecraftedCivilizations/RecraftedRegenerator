@@ -23,7 +23,7 @@ internal class YAMLBlockParserTest {
 
     @AfterEach
     fun teardown(){
-        //File("./data.yml").delete()
+        File("./data.yml").delete()
     }
 
     @Test
