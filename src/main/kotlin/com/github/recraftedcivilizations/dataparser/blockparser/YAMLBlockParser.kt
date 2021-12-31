@@ -46,7 +46,7 @@ class YAMLBlockParser(var filePath: String): IParseBlocks{
      * @param blockLocation The location of the block that should be removed
      */
     override fun removeBlock(blockLocation: Location) {
-        dataFile.set(blockLocation.hashCode().toString(), null)
+        dataFile.set("blocks.${blockLocation.hashCode()}", null)
         save()
     }
 
@@ -56,7 +56,7 @@ class YAMLBlockParser(var filePath: String): IParseBlocks{
      * @return The Material the block should respawn as or null if the block isn't stored
      */
     override fun getBlockType(blockLocation: Location): Material? {
-        return dataFile.getMaterial("blocks.${blockLocation.hashCode()}")
+        return dataFile.getMaterial("blocks.${blockLocation.hashCode()}.material")
     }
 
     /**
@@ -65,7 +65,7 @@ class YAMLBlockParser(var filePath: String): IParseBlocks{
      * @return If the block is stored and should therefore respawn
      */
     override fun isStored(location: Location): Boolean {
-        return dataFile.isSet(location.hashCode().toString())
+        return dataFile.isSet("blocks.${location.hashCode()}")
     }
 
     private fun load(){
