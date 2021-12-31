@@ -64,7 +64,7 @@ jobs:
           echo -e '\nRecraftedCivilizationsUsername=darkvanityoflight\n' >> gradle.properties
           echo -e 'RecraftedCivilizationsPassword=${{ secrets.MVN_KEY }}\n' >> gradle.properties
       - name: Build
-        run: ./gradlew shadowJar -x test
+        run: ./gradlew build -x test
       - name: Upload Artifacts
         uses: actions/upload-artifact@master
         with:
