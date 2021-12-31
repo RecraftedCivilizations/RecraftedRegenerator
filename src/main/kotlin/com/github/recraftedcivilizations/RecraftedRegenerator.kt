@@ -1,5 +1,6 @@
 package com.github.recraftedcivilizations
 
+import com.github.recraftedcivilizations.commands.MigrateOres
 import com.github.recraftedcivilizations.commands.PlaceRegenOre
 import com.github.recraftedcivilizations.dataparser.DataParser
 import com.github.recraftedcivilizations.dataparser.blockparser.YAMLBlockParser
@@ -28,8 +29,12 @@ class RecraftedRegenerator: JavaPlugin() {
 
         val dataParser = DataParser(YAMLBlockParser(this.dataFolder.path), CachedTimeParser())
 
+        val migrator = MigrateOres(configParser, dataParser)
+        this.getCommand("migrateores")?.setExecutor(regenCommand)
+
         Bukkit.getPluginManager().registerEvents(BlockBreakListener(dataParser, configParser), this)
         Bukkit.getPluginManager().registerEvents(BlockPlaceListener(regenCommand, dataParser, configParser), this)
+        Bukkit.getPluginManager().registerEvents(migrator, this)
 
 
         val regenerator = Regenerator(dataParser, configParser)

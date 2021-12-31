@@ -11,7 +11,15 @@ permissions:
     default: false
     description: Allows you to call the /oreregen command, which in turn alows you to place regenerativ blocks
 
+  recraftedregenerator.migrate:
+    default: false
+    description: Allows you to migrate an area of blocks instead of setting them manually
+
 commands:
   oreregen:
     permission: recraftedregenerator.regen
     permission-message: You don't have the permission to regenerate ores
+
+  migrateores:
+    permission: recraftedregenerator.migrate
+    permission-message: You don't have the permission to migrate blocks
