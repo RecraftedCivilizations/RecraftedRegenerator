@@ -13,7 +13,7 @@ version '1.0-SNAPSHOT'
 def pluginName = 'RecraftedRegenerator'
 def author = ['DarkVanityOfLigh']
 // Leave null for the latest API or fill in your wanted API version eg. 1.18
-def apiVersion = null
+def apiVersion = '1.18-R0.1-SNAPSHOT'
 
 // Base repos
 repositories {
@@ -44,8 +44,8 @@ dependencies {
         testImplementation 'org.spigotmc:spigot-api:+'
     }else{
         // Else we get the defined one
-        implementation 'org.spigotmc:spigot-api:${apiVersion}'
-        testImplementation 'org.spigotmc:spigot-api:${apiVersion}'
+        implementation "org.spigotmc:spigot-api:${apiVersion}"
+        testImplementation "org.spigotmc:spigot-api:${apiVersion}"
     }
 }
 
