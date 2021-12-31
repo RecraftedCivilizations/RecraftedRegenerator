@@ -40,12 +40,12 @@ dependencies {
 dependencies {
     // If the version is null we get the newest one
     if(apiVersion == null){
-        implementation 'org.spigotmc:spigot-api:+'
-        testImplementation 'org.spigotmc:spigot-api:+'
+        compileOnly 'org.spigotmc:spigot-api:+'
+        testCompileOnly 'org.spigotmc:spigot-api:+'
     }else{
         // Else we get the defined one
-        implementation "org.spigotmc:spigot-api:${apiVersion}"
-        testImplementation "org.spigotmc:spigot-api:${apiVersion}"
+        compileOnly "org.spigotmc:spigot-api:${apiVersion}"
+        testCompileOnly "org.spigotmc:spigot-api:${apiVersion}"
     }
 }
 
