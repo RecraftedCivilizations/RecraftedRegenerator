@@ -1,4 +1,4 @@
-package com.github.recraftedcivilizations.dataparser.commands
+package com.github.recraftedcivilizations.commands
 
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
