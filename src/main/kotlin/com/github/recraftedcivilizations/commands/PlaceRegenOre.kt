@@ -34,4 +34,8 @@ class PlaceRegenOre: CommandExecutor {
 
         return true
     }
+
+    fun isInRegenMode(player: Player): Boolean{
+        return player in playerInRegenMode
+    }
 }
