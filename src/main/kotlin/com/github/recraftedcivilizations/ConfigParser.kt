@@ -22,11 +22,16 @@ class ConfigParser(private val config: Configuration) {
     var respawnTimes: MutableMap<Material, Int> = emptyMap<Material, Int>().toMutableMap()
     var defaultDelay: Int? = null
     var emptyBlock: Material? = null
+    var interval: Int? = null
 
     /**
      * Load data from a configuration
      */
     fun load(){
+
+
+        // Get the interval in which we check for the blocks
+        interval = config.getInt("interval")
 
         // Create a new empty mutable map so we don't use the old config values again
         respawnTimes = emptyMap<Material, Int>().toMutableMap()
