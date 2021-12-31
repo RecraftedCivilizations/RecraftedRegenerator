@@ -2,6 +2,7 @@ package com.github.recraftedcivilizations.listeners
 
 import com.github.recraftedcivilizations.ConfigParser
 import com.github.recraftedcivilizations.dataparser.IParseData
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
@@ -15,8 +16,8 @@ class BlockBreakListener(private val dataParser: IParseData, private val configP
         val block = blockBreakEvent.block
 
         if (block.type in configParser.respawnTimes.keys && dataParser.isStored(block.location)){
-            setBlock(block.location, configParser.emptyBlock!!)
             dataParser.setRespawnTime(block.location, configParser.respawnTimes[block.type]!!)
+            setBlock(block.location, configParser.emptyBlock!!)
         }
     }
 
