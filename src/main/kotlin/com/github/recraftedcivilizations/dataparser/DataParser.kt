@@ -57,9 +57,10 @@ class DataParser(private val blockParser: IParseBlocks, private val timeParser: 
      * Set the respawn time of a block
      * @param blockLocation The location of the block
      * @param respawnTime The new respawn time
+     * @return Return true if the block should respawn now
      */
-    override fun setRespawnTime(blockLocation: Location, respawnTime: Int) {
-        timeParser.setRespawnTime(blockLocation, respawnTime)
+    override fun setRespawnTime(blockLocation: Location, respawnTime: Int): Boolean {
+        return timeParser.setRespawnTime(blockLocation, respawnTime)
     }
 
     /*

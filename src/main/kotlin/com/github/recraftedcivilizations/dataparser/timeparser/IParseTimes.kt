@@ -18,8 +18,9 @@ interface IParseTimes {
      * Set the respawn time of a block
      * @param blockLocation The location of the block
      * @param respawnTime The new respawn time
+     * @return Return true if the block should respawn now
      */
-    fun setRespawnTime(blockLocation: Location, respawnTime: Int)
+    fun setRespawnTime(blockLocation: Location, respawnTime: Int): Boolean
 
     /**
      * Get all blocks that still need to respawn

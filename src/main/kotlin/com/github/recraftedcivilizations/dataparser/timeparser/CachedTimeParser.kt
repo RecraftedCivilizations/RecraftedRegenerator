@@ -18,10 +18,12 @@ class CachedTimeParser: IParseTimes {
      * Set the respawn time of a block
      * @param blockLocation The location of the block
      * @param respawnTime The new respawn time
+     * @return Return true if the block should respawn now
      */
-    override fun setRespawnTime(blockLocation: Location, respawnTime: Int) {
-        if (respawnTime <= 0){ respawnTimes.remove(blockLocation); return }
+    override fun setRespawnTime(blockLocation: Location, respawnTime: Int): Boolean {
+        if (respawnTime <= 0){ respawnTimes.remove(blockLocation); return true}
         respawnTimes[blockLocation] = respawnTime
+        return false
     }
 
     /**
