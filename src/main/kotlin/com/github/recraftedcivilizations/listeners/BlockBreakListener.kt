@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.listeners
 
 import com.github.recraftedcivilizations.ConfigParser
+import com.github.recraftedcivilizations.RecraftedRegenerator
 import com.github.recraftedcivilizations.dataparser.IParseData
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -8,6 +9,8 @@ import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.scheduler.BukkitRunnable
 
 class BlockBreakListener(private val dataParser: IParseData, private val configParser: ConfigParser): Listener {
 
@@ -22,6 +25,14 @@ class BlockBreakListener(private val dataParser: IParseData, private val configP
     }
 
     private fun setBlock(location: Location, type: Material){
-        location.block.type = type
+
+        // This is fucking stupid but I can't change it
+        // my guess is that events are called asynchronous
+        // and therefore we cannot modify blocks
+        object: BukkitRunnable() {
+            override fun run() {
+                location.block.type = type
+            }
+        }.runTask(RecraftedRegenerator.plugin)
     }
 }
