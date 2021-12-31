@@ -27,7 +27,7 @@ class RecraftedRegenerator: JavaPlugin() {
 
 
         val regenerator = Regenerator(dataParser, configParser)
-        regenerator.runTaskTimer(this, 0L, configParser.interval!!.toLong())
+        regenerator.runTaskTimer(this, 0L, configParser.interval!! * 20L)
 
     }
 }
