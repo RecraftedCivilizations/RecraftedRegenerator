@@ -4,4 +4,14 @@ softdepend: []
 version: ${version}
 author: ${author}
 api-version: ${api-version}
-description:
+description: Regenerate ores
+
+permissions:
+  recraftedregenerator.regen:
+    default: false
+    description: Allows you to call the /oreregen command, which in turn alows you to place regenerativ blocks
+
+commands:
+  oreregen:
+    permission: recraftedregenerator.regen
+    permission-message: You don't have the permission to regenerate ores
