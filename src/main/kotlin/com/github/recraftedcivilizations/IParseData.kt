@@ -47,4 +47,11 @@ interface IParseData {
      */
     fun setRespawnTime(blockLocation: Location, respawnTime: Int)
 
+    /**
+     * Check if the block at the specific location will/should respawn
+     * @param location The location of the block
+     * @return If the block is stored and should therefore respawn
+     */
+    fun isStored(location: Location): Boolean
+
 }
