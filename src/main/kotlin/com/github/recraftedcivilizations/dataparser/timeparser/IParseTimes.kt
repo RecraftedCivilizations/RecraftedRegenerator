@@ -1,4 +1,4 @@
-package com.github.recraftedcivilizations.dataparser
+package com.github.recraftedcivilizations.dataparser.timeparser
 
 import org.bukkit.Location
 

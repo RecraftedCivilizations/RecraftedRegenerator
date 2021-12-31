@@ -1,4 +1,4 @@
-package com.github.recraftedcivilizations.dataparser
+package com.github.recraftedcivilizations.dataparser.blockparser
 
 import org.bukkit.Location
 import org.bukkit.Material

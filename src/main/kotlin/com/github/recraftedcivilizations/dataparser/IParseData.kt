@@ -1,8 +1,7 @@
 package com.github.recraftedcivilizations.dataparser
 
-import org.bukkit.Location
-import org.bukkit.Material
-import org.bukkit.block.Block
+import com.github.recraftedcivilizations.dataparser.blockparser.IParseBlocks
+import com.github.recraftedcivilizations.dataparser.timeparser.IParseTimes
 
 /**
  * @author DarkVanityOfLight
