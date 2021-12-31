@@ -21,4 +21,10 @@ interface IParseTimes {
      */
     fun setRespawnTime(blockLocation: Location, respawnTime: Int)
 
+    /**
+     * Get all blocks that still need to respawn
+     * @return A map of all locations of blocks that still need to respawn with their respawn time as value
+     */
+    fun getBlocksToRespawn(): Map<Location, Int>
+
 }

@@ -23,4 +23,12 @@ class CachedTimeParser: IParseTimes {
         if (respawnTime <= 0){ respawnTimes.remove(blockLocation); return }
         respawnTimes[blockLocation] = respawnTime
     }
+
+    /**
+     * Get all blocks that still need to respawn
+     * @return A map of all locations of blocks that still need to respawn with their respawn time as value
+     */
+    override fun getBlocksToRespawn(): Map<Location, Int> {
+        return respawnTimes
+    }
 }
