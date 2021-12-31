@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '+'
     id 'org.jetbrains.dokka' version '+'
     id 'maven-publish'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 group 'com.github.recraftedcivilizations'
@@ -41,11 +42,11 @@ dependencies {
     // If the version is null we get the newest one
     if(apiVersion == null){
         compileOnly 'org.spigotmc:spigot-api:+'
-        testCompileOnly 'org.spigotmc:spigot-api:+'
+        testImplementation 'org.spigotmc:spigot-api:+'
     }else{
         // Else we get the defined one
         compileOnly "org.spigotmc:spigot-api:${apiVersion}"
-        testCompileOnly "org.spigotmc:spigot-api:${apiVersion}"
+        testImplementation "org.spigotmc:spigot-api:${apiVersion}"
     }
 }
 
