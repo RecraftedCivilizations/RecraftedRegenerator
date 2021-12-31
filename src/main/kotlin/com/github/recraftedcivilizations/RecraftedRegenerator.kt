@@ -12,6 +12,10 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class RecraftedRegenerator: JavaPlugin() {
 
+    companion object{
+        lateinit var plugin: JavaPlugin
+    }
+
     override fun onEnable(){
 
         saveDefaultConfig()
@@ -30,6 +34,8 @@ class RecraftedRegenerator: JavaPlugin() {
 
         val regenerator = Regenerator(dataParser, configParser)
         regenerator.runTaskTimer(this, 0L, configParser.interval!! * 20L)
+
+        plugin = this
 
     }
 }
