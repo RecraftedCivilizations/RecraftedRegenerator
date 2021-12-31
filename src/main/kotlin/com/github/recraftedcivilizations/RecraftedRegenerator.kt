@@ -14,6 +14,8 @@ class RecraftedRegenerator: JavaPlugin() {
 
     override fun onEnable(){
 
+        saveDefaultConfig()
+
         val configParser = ConfigParser(this.config)
         configParser.load()
 

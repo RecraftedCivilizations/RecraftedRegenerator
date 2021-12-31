@@ -1,0 +1,9 @@
+interval: 10
+defaultDelay: 20
+empty: BEDROCK
+
+delays:
+  IRON_ORE:
+    delay: 20
+  GOLD_ORE:
+    delay: 30
