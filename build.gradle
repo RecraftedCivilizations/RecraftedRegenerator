@@ -63,7 +63,7 @@ processResources {
     // If the version is undefined we want to find the version gradle got
     if (apiVersion == null){
         // So find the module at runtime level and get the version
-        apiVersion = configurations.runtimeClasspath.resolvedConfiguration.firstLevelModuleDependencies.findAll {
+        apiVersion = configurations.compileClasspath.resolvedConfiguration.firstLevelModuleDependencies.findAll {
             it.moduleName == "spigot-api"}[0].moduleVersion
     }
 
