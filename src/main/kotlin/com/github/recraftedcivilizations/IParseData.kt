@@ -17,9 +17,8 @@ interface IParseData {
     /**
      * Set a block in the data
      * @param block The block that should respawn after a delay
-     * @param respawnTime The time that is left till the block should respawn
      */
-    fun storeBlock(block: Block, respawnTime: Int)
+    fun storeBlock(block: Block)
 
     /**
      * Delete a block from the storage
