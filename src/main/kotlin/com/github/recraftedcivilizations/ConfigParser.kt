@@ -13,6 +13,11 @@ fun Configuration.getMaterial(path: String, def: Material): Material{
     return Material.matchMaterial(strMat) ?: return def
 }
 
+fun Configuration.getMaterial(path: String): Material?{
+    val strMat = this.getString(path) ?: return  null
+    return Material.matchMaterial(strMat) ?: return null
+}
+
 class ConfigParser(private val config: Configuration) {
     var respawnTimes: MutableMap<Material, Int> = emptyMap<Material, Int>().toMutableMap()
     var defaultDelay: Int? = null
