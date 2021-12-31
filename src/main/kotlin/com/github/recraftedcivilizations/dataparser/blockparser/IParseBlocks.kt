@@ -23,9 +23,9 @@ interface IParseBlocks {
     /**
      * Get the type of a stored block
      * @param blockLocation The location of the block
-     * @return The Material the block should respawn as
+     * @return The Material the block should respawn as or null if the block isn't stored
      */
-    fun getBlockType(blockLocation: Location): Material
+    fun getBlockType(blockLocation: Location): Material?
 
     /**
      * Check if the block at the specific location will/should respawn
