@@ -47,8 +47,10 @@ dependencies {
         implementation 'org.spigotmc:spigot-api:${apiVersion}'
         testImplementation 'org.spigotmc:spigot-api:${apiVersion}'
     }
+}
 
-
+dependencies {
+    testImplementation "io.mockk:mockk:1.12.2"
 }
 //======================================================================================//
 
