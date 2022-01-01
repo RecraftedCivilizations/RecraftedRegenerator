@@ -7,6 +7,7 @@ import com.github.recraftedcivilizations.dataparser.blockparser.YAMLBlockParser
 import com.github.recraftedcivilizations.dataparser.timeparser.CachedTimeParser
 import com.github.recraftedcivilizations.listeners.BlockBreakListener
 import com.github.recraftedcivilizations.listeners.BlockPlaceListener
+import com.github.recraftedcivilizations.listeners.RightClickListener
 import com.github.recraftedcivilizations.runnables.Regenerator
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -35,6 +36,7 @@ class RecraftedRegenerator: JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(BlockBreakListener(dataParser, configParser), this)
         Bukkit.getPluginManager().registerEvents(BlockPlaceListener(regenCommand, dataParser, configParser), this)
         Bukkit.getPluginManager().registerEvents(migrator, this)
+        Bukkit.getPluginManager().registerEvents(RightClickListener(dataParser), this)
 
 
         val regenerator = Regenerator(dataParser, configParser)
