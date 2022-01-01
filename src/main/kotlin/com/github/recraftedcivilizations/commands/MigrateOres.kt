@@ -56,6 +56,8 @@ class MigrateOres(private val configParser: ConfigParser, private val dataParser
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender !is Player){ return false }
 
+        if(args.isEmpty()){ return false }
+
         if (args[0] == "setup"){
 
             if (sender in inSetupMode){
