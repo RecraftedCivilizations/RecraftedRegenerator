@@ -68,10 +68,6 @@ class YAMLBlockParser(var filePath: String): IParseBlocks{
         return dataFile.isSet("blocks.${location.hashCode()}")
     }
 
-    private fun load(){
-        dataFile.load(filePath)
-    }
-
     private fun save(){
         dataFile.save(filePath)
     }
