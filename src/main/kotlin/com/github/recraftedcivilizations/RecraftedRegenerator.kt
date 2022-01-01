@@ -13,6 +13,7 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 class RecraftedRegenerator: JavaPlugin() {
+    private lateinit var dataParser: DataParser
 
     companion object{
         lateinit var plugin: JavaPlugin
@@ -28,7 +29,7 @@ class RecraftedRegenerator: JavaPlugin() {
         val regenCommand = PlaceRegenOre()
         this.getCommand("oreregen")?.setExecutor(regenCommand)
 
-        val dataParser = DataParser(YAMLBlockParser(this.dataFolder.path), CachedTimeParser())
+        dataParser = DataParser(YAMLBlockParser(this.dataFolder.path), CachedTimeParser())
 
         val migrator = MigrateOres(configParser, dataParser)
         this.getCommand("migrateores")?.setExecutor(migrator)
@@ -44,5 +45,12 @@ class RecraftedRegenerator: JavaPlugin() {
 
         plugin = this
 
+    }
+
+    override fun onDisable() {
+        Bukkit.getLogger().info("Respawning all blocks!!")
+        for((location, time) in dataParser.getBlocksToRespawn().entries){
+            location.block.type = dataParser.getBlockType(location)!!
+        }
     }
 }
