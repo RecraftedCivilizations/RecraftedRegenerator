@@ -19,7 +19,9 @@ commands:
   oreregen:
     permission: recraftedregenerator.regen
     permission-message: You don't have the permission to regenerate ores
+    usage: /oreregen
 
   migrateores:
     permission: recraftedregenerator.migrate
     permission-message: You don't have the permission to migrate blocks
+    usage: /migrateores <setup|migrate>
