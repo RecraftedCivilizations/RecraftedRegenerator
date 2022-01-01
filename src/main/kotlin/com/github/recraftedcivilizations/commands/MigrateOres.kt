@@ -15,11 +15,14 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.util.BlockIterator
+import kotlin.math.ceil
+import kotlin.math.floor
 
 private class MigrateRunner(private val blocks: List<Block>, private val configParser: ConfigParser, private val dataParser: DataParser, private val migrator: Player): BukkitRunnable(){
     override fun run() {
         for (block in blocks){
-            if (block.type in configParser.respawnTimes){
+            if (block.type in configParser.respawnTimes && dataParser.isStored(block.location)){
                 dataParser.storeBlock(block)
 
             }
