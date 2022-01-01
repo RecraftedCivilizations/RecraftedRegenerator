@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.commands
 import com.github.recraftedcivilizations.ConfigParser
 import com.github.recraftedcivilizations.RecraftedRegenerator.Companion.plugin
 import com.github.recraftedcivilizations.dataparser.DataParser
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.World
@@ -15,6 +16,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.scheduler.BukkitRunnable
 
 private class MigrateRunner(private val blocks: List<Block>, private val configParser: ConfigParser, private val dataParser: DataParser, private val migrator: Player): BukkitRunnable(){
@@ -99,6 +101,7 @@ class MigrateOres(private val configParser: ConfigParser, private val dataParser
             for (y in loc1.y.toInt()..loc2.y.toInt()) {
                 for (z in loc1.z.toInt()..loc2.z.toInt()) {
                     val loc = Location(world, x.toDouble(), y.toDouble(), z.toDouble())
+                    Bukkit.getLogger().info(loc.block.type.name)
                     blocks.add(loc.block)
                 }
             }
@@ -110,7 +113,8 @@ class MigrateOres(private val configParser: ConfigParser, private val dataParser
     fun onPlayerInteract(e: PlayerInteractEvent){
 
         if (e.player in inSetupMode){
-            if (e.action == Action.RIGHT_CLICK_BLOCK){
+            e.isCancelled = true
+            if (e.action == Action.RIGHT_CLICK_BLOCK && e.hand == EquipmentSlot.HAND){
                 locationMap[e.player] = Pair(e.clickedBlock?.location, locationMap[e.player]?.second)
                 e.player.sendMessage("${ChatColor.GREEN}Set the second migration location!!")
             }else if (e.action == Action.LEFT_CLICK_BLOCK){
