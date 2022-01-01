@@ -3,10 +3,7 @@ package com.github.recraftedcivilizations.commands
 import com.github.recraftedcivilizations.ConfigParser
 import com.github.recraftedcivilizations.RecraftedRegenerator.Companion.plugin
 import com.github.recraftedcivilizations.dataparser.DataParser
-import org.bukkit.Bukkit
-import org.bukkit.ChatColor
-import org.bukkit.Location
-import org.bukkit.World
+import org.bukkit.*
 import org.bukkit.block.Block
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -94,19 +91,21 @@ class MigrateOres(private val configParser: ConfigParser, private val dataParser
     }
 
 
+    private fun getRegionBlocks(world: World, loc1: Location, loc2: Location): List<Block> {
+        val blocks = emptyList<Block>().toMutableList()
 
-    private fun getRegionBlocks(world: World?, loc1: Location, loc2: Location): List<Block> {
-        val blocks: MutableList<Block> = ArrayList<Block>()
-        for (x in loc1.x.toInt()..loc2.x.toInt()) {
-            for (y in loc1.y.toInt()..loc2.y.toInt()) {
-                for (z in loc1.z.toInt()..loc2.z.toInt()) {
-                    val loc = Location(world, x.toDouble(), y.toDouble(), z.toDouble())
-                    Bukkit.getLogger().info(loc.block.type.name)
-                    blocks.add(loc.block)
+        for(x in ceil(loc1.x.coerceAtMost(loc2.x)).toInt()..floor(loc1.x.coerceAtLeast(loc2.x)).toInt()){
+            for(y in ceil(loc1.y.coerceAtMost(loc2.y)).toInt()..floor(loc1.y.coerceAtLeast(loc2.y)).toInt()){
+                for(z in ceil(loc1.z.coerceAtMost(loc2.z)).toInt()..floor(loc1.z.coerceAtLeast(loc2.z)).toInt()){
+                    blocks.add(world.getBlockAt(x, y, z))
                 }
+
             }
+
         }
+
         return blocks
+
     }
 
     @EventHandler
