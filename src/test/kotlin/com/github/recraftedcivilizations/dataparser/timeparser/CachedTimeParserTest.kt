@@ -41,4 +41,17 @@ internal class CachedTimeParserTest {
         assertEquals(null, parser.getRespawnTime(location))
 
     }
+
+    @Test
+    fun shouldGetBlocksToRespawn(){
+
+        val location1: Location = mockk()
+        val location2: Location = mockk()
+
+        parser.setRespawnTime(location1, 100)
+        parser.setRespawnTime(location2, 150)
+
+        assertEquals(mapOf(Pair(location1, 100), Pair(location2, 150)), parser.getBlocksToRespawn())
+
+    }
 }
