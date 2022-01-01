@@ -30,7 +30,7 @@ class RecraftedRegenerator: JavaPlugin() {
         val dataParser = DataParser(YAMLBlockParser(this.dataFolder.path), CachedTimeParser())
 
         val migrator = MigrateOres(configParser, dataParser)
-        this.getCommand("migrateores")?.setExecutor(regenCommand)
+        this.getCommand("migrateores")?.setExecutor(migrator)
 
         Bukkit.getPluginManager().registerEvents(BlockBreakListener(dataParser, configParser), this)
         Bukkit.getPluginManager().registerEvents(BlockPlaceListener(regenCommand, dataParser, configParser), this)
