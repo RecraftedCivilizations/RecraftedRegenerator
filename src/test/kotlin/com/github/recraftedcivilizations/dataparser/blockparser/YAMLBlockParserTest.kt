@@ -86,4 +86,12 @@ internal class YAMLBlockParserTest {
         assertEquals(Material.IRON_ORE, parser.getBlockType(block.location))
 
     }
+
+    @Test
+    fun shouldNotAppendSlashIfAlreadyPartOfURI() {
+
+        val parser = YAMLBlockParser("./")
+        assertEquals("./data.yml", parser.filePath)
+
+    }
 }
