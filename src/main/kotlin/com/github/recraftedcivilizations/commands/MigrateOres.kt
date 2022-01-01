@@ -61,9 +61,11 @@ class MigrateOres(private val configParser: ConfigParser, private val dataParser
             if (sender in inSetupMode){
                 inSetupMode.remove(sender)
                 locationMap.remove(sender)
+                sender.sendMessage("${ChatColor.RED}You are not longer in migration mode!!")
             }else{
                 inSetupMode.add(sender)
                 locationMap[sender] = Pair(null, null)
+                sender.sendMessage("${ChatColor.GREEN}You are now in migration mode!")
             }
 
             return true
@@ -74,9 +76,12 @@ class MigrateOres(private val configParser: ConfigParser, private val dataParser
                 val blocks = getRegionBlocks(sender.world, locationMap[sender]?.first!!, locationMap[sender]?.second!!)
 
                 val migrationRunner = MigrateRunner(blocks, configParser, dataParser, sender)
+                sender.sendMessage("${ChatColor.GREEN}Starting migration!!")
                 migrationRunner.runTaskAsynchronously(plugin)
                 return true
 
+            }else{
+                sender.sendMessage("${ChatColor.RED}You did not set two locations!!")
             }
 
         }
@@ -105,8 +110,10 @@ class MigrateOres(private val configParser: ConfigParser, private val dataParser
         if (e.player in inSetupMode){
             if (e.action == Action.RIGHT_CLICK_BLOCK){
                 locationMap[e.player] = Pair(e.clickedBlock?.location, locationMap[e.player]?.second)
+                e.player.sendMessage("${ChatColor.GREEN}Set the second migration location!!")
             }else if (e.action == Action.LEFT_CLICK_BLOCK){
                 locationMap[e.player] = Pair(locationMap[e.player]?.first, e.clickedBlock?.location)
+                e.player.sendMessage("${ChatColor.RED}Set the first migration location!!")
             }
         }
 
