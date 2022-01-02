@@ -40,3 +40,8 @@ After you defined the area type `/migrateores migrate` to migrate all the ores.
 To leave migration mode use the `/migrateores setup` command again.  
 `> Note: After using /migrateores migrate you will still be in migration mode`  
 #### This command requires the: `recraftedregenerator.migrate` permission
+
+## Remove Regeneration mode
+The `/removeregen` command is used to put you in a mode that enables you to remove already
+placed regenerative ores again. To leave this mode type `/removeregen` again.
+#### This command requires the: `recraftedregenerator.removeregen` permission
