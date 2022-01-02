@@ -15,6 +15,10 @@ permissions:
     default: false
     description: Allows you to migrate an area of blocks instead of setting them manually
 
+  recraftedregenerator.removeregen:
+    default: false
+    description: Allows you to delete regenerative ores
+
 commands:
   oreregen:
     permission: recraftedregenerator.regen
@@ -25,3 +29,8 @@ commands:
     permission: recraftedregenerator.migrate
     permission-message: You don't have the permission to migrate blocks
     usage: /migrateores <setup|migrate>
+
+  removeregen:
+    permission: recraftedregenerator.removeregen
+    permission-message: You don't have the permission to remove regenerative blocks
+    usage: /removerege

@@ -2,6 +2,7 @@ package com.github.recraftedcivilizations
 
 import com.github.recraftedcivilizations.commands.MigrateOres
 import com.github.recraftedcivilizations.commands.PlaceRegenOre
+import com.github.recraftedcivilizations.commands.RemoveRegenOre
 import com.github.recraftedcivilizations.dataparser.DataParser
 import com.github.recraftedcivilizations.dataparser.blockparser.YAMLBlockParser
 import com.github.recraftedcivilizations.dataparser.timeparser.CachedTimeParser
@@ -34,7 +35,10 @@ class RecraftedRegenerator: JavaPlugin() {
         val migrator = MigrateOres(configParser, dataParser)
         this.getCommand("migrateores")?.setExecutor(migrator)
 
-        Bukkit.getPluginManager().registerEvents(BlockBreakListener(dataParser, configParser), this)
+        val removeRegenOre = RemoveRegenOre()
+        this.getCommand("removeregen")?.setExecutor(removeRegenOre)
+
+        Bukkit.getPluginManager().registerEvents(BlockBreakListener(dataParser, configParser, removeRegenOre), this)
         Bukkit.getPluginManager().registerEvents(BlockPlaceListener(regenCommand, dataParser, configParser), this)
         Bukkit.getPluginManager().registerEvents(migrator, this)
         Bukkit.getPluginManager().registerEvents(RightClickListener(dataParser), this)
