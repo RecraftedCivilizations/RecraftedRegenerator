@@ -100,7 +100,6 @@ class MigrateOres(private val configParser: ConfigParser, private val dataParser
             for(y in ceil(loc1.y.coerceAtMost(loc2.y)).toInt()..floor(loc1.y.coerceAtLeast(loc2.y)).toInt()){
                 for(z in ceil(loc1.z.coerceAtMost(loc2.z)).toInt()..floor(loc1.z.coerceAtLeast(loc2.z)).toInt()){
                     blocks.add(world.getBlockAt(x, y, z))
-                    Bukkit.getLogger().info(world.getBlockAt(x, y, z).type.name)
                 }
 
             }
