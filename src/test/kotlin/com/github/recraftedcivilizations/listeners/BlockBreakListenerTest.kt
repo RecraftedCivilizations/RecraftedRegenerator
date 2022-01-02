@@ -2,6 +2,7 @@ package com.github.recraftedcivilizations.listeners
 
 import com.github.recraftedcivilizations.ConfigParser
 import com.github.recraftedcivilizations.RecraftedRegenerator
+import com.github.recraftedcivilizations.commands.RemoveRegenOre
 import com.github.recraftedcivilizations.dataparser.IParseData
 import io.mockk.*
 import org.bukkit.Bukkit
@@ -24,16 +25,18 @@ internal class BlockBreakListenerTest {
     @Test
     fun onBlockBreak() {
 
+        val removeRegenOre: RemoveRegenOre = mockk()
         val e: BlockBreakEvent = mockk(null, true)
         val dataParser: IParseData = mockk(null, true)
         val configParser: ConfigParser = mockk(null, true)
         val block: Block = mockk(null, true)
-        val listener = BlockBreakListener(dataParser, configParser)
+        val listener = BlockBreakListener(dataParser, configParser, removeRegenOre)
         val l: Location = mockk(null, true)
         val plugin: JavaPlugin = mockk(null, true)
         val bukkitScheduler: BukkitScheduler = mockk(null, true)
 
         every { e.block } returns block
+        every { removeRegenOre.isInRemoveMode(any()) } returns false
         every { block.getType() } returns Material.IRON_ORE
         every { block.location } returns l
         every { l.block } returns block
@@ -56,16 +59,18 @@ internal class BlockBreakListenerTest {
     @Test
     fun setBlock(){
 
+        val removeRegenOre: RemoveRegenOre = mockk()
         val e: BlockBreakEvent = mockk(null, true)
         val dataParser: IParseData = mockk(null, true)
         val configParser: ConfigParser = mockk(null, true)
         val block: Block = mockk(null, true)
-        val listener = BlockBreakListener(dataParser, configParser)
+        val listener = BlockBreakListener(dataParser, configParser, removeRegenOre)
         val l: Location = mockk(null, true)
         val plugin: JavaPlugin = mockk(null, true)
         val bukkitScheduler: BukkitScheduler = mockk(null, true)
 
         every { e.block } returns block
+        every { removeRegenOre.isInRemoveMode(any()) } returns false
         every { block.getType() } returns Material.IRON_ORE
         every { block.location } returns l
         every { l.block } returns block
