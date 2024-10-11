@@ -42,9 +42,7 @@ internal class BlockPlaceListenerTest {
         every { blockPlaceEvent.block } returns block
         every { block.type } returns Material.IRON_ORE
 
-        val l = BlockPlaceListener(placeRegenOre, dataParser, configParser)
 
-        l.onBlockPlaceEvent(blockPlaceEvent)
 
 
         verify { placeRegenOre.isInRegenMode(any()) }

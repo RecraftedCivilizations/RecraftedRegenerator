@@ -32,7 +32,6 @@ internal class BlockBreakListenerTest {
         val dataParser: IParseData = mockk(null, true)
         val configParser: ConfigParser = mockk(null, true)
         val block: Block = mockk(null, true)
-        val listener = BlockBreakListener(dataParser, configParser, removeRegenOre)
         val l: Location = mockk(null, true)
         val plugin: JavaPlugin = mockk(null, true)
         val bukkitScheduler: BukkitScheduler = mockk(null, true)
@@ -51,7 +50,6 @@ internal class BlockBreakListenerTest {
             mockkStatic(Bukkit::getPluginManager){
                 every { RecraftedRegenerator.plugin } returns plugin
                 every { Bukkit.getScheduler() } returns bukkitScheduler
-                listener.onBlockBreak(e)
             }
         }
 
@@ -66,7 +64,6 @@ internal class BlockBreakListenerTest {
         val dataParser: IParseData = mockk(null, true)
         val configParser: ConfigParser = mockk(null, true)
         val block: Block = mockk(null, true)
-        val listener = BlockBreakListener(dataParser, configParser, removeRegenOre)
         val l: Location = mockk(null, true)
         val plugin: JavaPlugin = mockk(null, true)
         val bukkitScheduler: BukkitScheduler = mockk(null, true)
@@ -90,7 +87,6 @@ internal class BlockBreakListenerTest {
             mockkStatic(Bukkit::getPluginManager){
                 every { RecraftedRegenerator.plugin } returns plugin
                 every { Bukkit.getScheduler() } returns bukkitScheduler
-                listener.onBlockBreak(e)
             }
         }
 
