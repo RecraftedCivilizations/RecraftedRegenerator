@@ -40,10 +40,6 @@ class RecraftedRegenerator: KSpigot() {
 
         val removeRegenOre = RemoveRegenOre()
 
-        Bukkit.getPluginManager().registerEvents(BlockBreakListener(dataParser, configParser, removeRegenOre), this)
-        Bukkit.getPluginManager().registerEvents(BlockPlaceListener(regenCommand, dataParser, configParser), this)
-        Bukkit.getPluginManager().registerEvents(RightClickListener(dataParser), this)
-
 
         val regenerator = Regenerator(dataParser, configParser)
         regenerator.runTaskTimer(this, 0L, configParser.interval!! * 20L)

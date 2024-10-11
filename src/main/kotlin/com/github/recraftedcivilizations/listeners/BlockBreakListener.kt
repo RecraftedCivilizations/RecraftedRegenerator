@@ -4,6 +4,7 @@ import com.github.recraftedcivilizations.ConfigParser
 import com.github.recraftedcivilizations.RecraftedRegenerator
 import com.github.recraftedcivilizations.commands.RemoveRegenOre
 import com.github.recraftedcivilizations.dataparser.IParseData
+import net.axay.kspigot.event.listen
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
@@ -14,10 +15,15 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.scheduler.BukkitRunnable
 
-class BlockBreakListener(private val dataParser: IParseData, private val configParser: ConfigParser, private val removeRegenOre: RemoveRegenOre): Listener {
+class BlockBreakListener(private val dataParser: IParseData, private val configParser: ConfigParser, private val removeRegenOre: RemoveRegenOre) {
 
-    @EventHandler
-    fun onBlockBreak(blockBreakEvent: BlockBreakEvent){
+    init {
+        listen<BlockBreakEvent> {
+            onBlockBreak(it)
+        }
+    }
+
+    private fun onBlockBreak(blockBreakEvent: BlockBreakEvent){
         val block = blockBreakEvent.block
 
         if (block.type in configParser.respawnTimes.keys && dataParser.isStored(block.location)){

@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.listeners
 
 import com.github.recraftedcivilizations.dataparser.IParseData
+import net.axay.kspigot.event.listen
 import org.bukkit.ChatColor
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -8,12 +9,15 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 
-class RightClickListener(private val dataParser: IParseData): Listener {
+class RightClickListener(private val dataParser: IParseData) {
 
+    init {
+        listen<PlayerInteractEvent> {
+            onRightClick(it)
+        }
+    }
 
-
-    @EventHandler
-    fun onRightClick(e: PlayerInteractEvent){
+    private fun onRightClick(e: PlayerInteractEvent){
         if (e.hand != EquipmentSlot.HAND || e.action != Action.RIGHT_CLICK_BLOCK){ return }
 
         val respawnTime = dataParser.getRespawnTime(e.clickedBlock!!.location)
