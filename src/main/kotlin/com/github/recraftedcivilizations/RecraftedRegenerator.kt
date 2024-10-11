@@ -25,15 +25,11 @@ class RecraftedRegenerator: KSpigot() {
         val configParser = ConfigParser(this.config)
         configParser.load()
 
-        val regenCommand = PlaceRegenOre(configParser, dataParser)
-
-
         dataParser = DataParser(YAMLBlockParser(this.dataFolder.path), CachedTimeParser())
 
+        val regenCommand = PlaceRegenOre(configParser, dataParser)
         val migrator = MigrateOres(configParser, dataParser)
-
         val removeRegenOre = RemoveRegenOre(configParser, dataParser)
-
 
         val regenerator = Regenerator(dataParser, configParser)
         regenerator.runTaskTimer(this, 0L, configParser.interval!! * 20L)
