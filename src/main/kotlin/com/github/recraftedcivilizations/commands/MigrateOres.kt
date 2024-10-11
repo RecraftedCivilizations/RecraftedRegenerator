@@ -3,19 +3,20 @@ package com.github.recraftedcivilizations.commands
 import com.github.recraftedcivilizations.ConfigParser
 import com.github.recraftedcivilizations.RecraftedRegenerator.Companion.plugin
 import com.github.recraftedcivilizations.dataparser.DataParser
-import org.bukkit.*
+import net.axay.kspigot.chat.KColors
+import net.axay.kspigot.chat.literalText
+import net.axay.kspigot.commands.command
+import net.axay.kspigot.commands.literal
+import net.axay.kspigot.commands.runs
+import net.axay.kspigot.event.listen
+import org.bukkit.Location
+import org.bukkit.World
 import org.bukkit.block.Block
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.util.BlockIterator
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -30,7 +31,7 @@ private class MigrateRunner(private val blocks: List<Block>, private val configP
 
         object: BukkitRunnable() {
             override fun run() {
-                migrator.sendMessage("${ChatColor.GREEN}Finished migration!!")
+                migrator.sendMessage(literalText("Finished migration!!") { color = KColors.GREEN})
             }
         }.runTask(plugin)
 
@@ -39,59 +40,53 @@ private class MigrateRunner(private val blocks: List<Block>, private val configP
 
 
 
-class MigrateOres(private val configParser: ConfigParser, private val dataParser: DataParser): CommandExecutor, Listener{
+class MigrateOres(private val configParser: ConfigParser, private val dataParser: DataParser){
     private val locationMap: MutableMap<Player, Pair<Location?, Location?>> = emptyMap<Player, Pair<Location?, Location?>>().toMutableMap()
     private val inSetupMode: MutableSet<Player> = emptySet<Player>().toMutableSet()
 
-    /**
-     * Executes the given command, returning its success.
-     * <br></br>
-     * If false is returned, then the "usage" plugin.yml entry for this command
-     * (if defined) will be sent to the player.
-     *
-     * @param sender Source of the command
-     * @param command Command which was executed
-     * @param label Alias of the command which was used
-     * @param args Passed command arguments
-     * @return true if a valid command, otherwise false
-     */
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        if (sender !is Player){ return false }
+    init {
+        command("migrateOres") {
+                literal("setup") {
+                    runs {
+                        setup(player)
+                    }
+                }
 
-        if(args.isEmpty()){ return false }
-
-        if (args[0] == "setup"){
-
-            if (sender in inSetupMode){
-                inSetupMode.remove(sender)
-                locationMap.remove(sender)
-                sender.sendMessage("${ChatColor.RED}You are not longer in migration mode!!")
-            }else{
-                inSetupMode.add(sender)
-                locationMap[sender] = Pair(null, null)
-                sender.sendMessage("${ChatColor.GREEN}You are now in migration mode!")
-            }
-
-            return true
-
-        }else if (args[0] == "migrate"){
-
-            if (locationMap[sender]?.first != null && locationMap[sender]?.second != null){
-                val blocks = getRegionBlocks(sender.world, locationMap[sender]?.first!!, locationMap[sender]?.second!!)
-
-                val migrationRunner = MigrateRunner(blocks, configParser, dataParser, sender)
-                migrationRunner.runTaskAsynchronously(plugin)
-                return true
-
-            }else{
-                sender.sendMessage("${ChatColor.RED}You did not set two locations!!")
-            }
-
+                literal("migrate") {
+                    runs {
+                        migrate(player)
+                    }
+                }
         }
 
-        return false
+        listen<PlayerInteractEvent> {
+            onPlayerInteract(it)
+        }
     }
 
+    private fun setup(sender: Player){
+        if (sender in inSetupMode){
+            inSetupMode.remove(sender)
+            locationMap.remove(sender)
+            sender.sendMessage(literalText("You are not longer in migration mode!") { color = KColors.RED})
+        }else{
+            inSetupMode.add(sender)
+            locationMap[sender] = Pair(null, null)
+            sender.sendMessage(literalText("You are now in migration mode!") { color = KColors.GREEN})
+        }
+    }
+
+    private fun migrate(sender: Player){
+        if (locationMap[sender]?.first != null && locationMap[sender]?.second != null){
+            val blocks = getRegionBlocks(sender.world, locationMap[sender]?.first!!, locationMap[sender]?.second!!)
+
+            val migrationRunner = MigrateRunner(blocks, configParser, dataParser, sender)
+            migrationRunner.runTaskAsynchronously(plugin)
+
+        }else{
+            sender.sendMessage(literalText("You did not set two locations!!") { color = KColors.RED})
+        }
+    }
 
     private fun getRegionBlocks(world: World, loc1: Location, loc2: Location): List<Block> {
         val blocks = emptyList<Block>().toMutableList()
@@ -110,17 +105,15 @@ class MigrateOres(private val configParser: ConfigParser, private val dataParser
 
     }
 
-    @EventHandler
-    fun onPlayerInteract(e: PlayerInteractEvent){
-
+    private fun onPlayerInteract(e: PlayerInteractEvent){
         if (e.player in inSetupMode){
             e.isCancelled = true
             if (e.action == Action.RIGHT_CLICK_BLOCK && e.hand == EquipmentSlot.HAND){
                 locationMap[e.player] = Pair(e.clickedBlock?.location, locationMap[e.player]?.second)
-                e.player.sendMessage("${ChatColor.GREEN}Set the second migration location!!")
+                e.player.sendMessage(literalText("Set the second migration location!!") { color = KColors.GREEN})
             }else if (e.action == Action.LEFT_CLICK_BLOCK){
                 locationMap[e.player] = Pair(locationMap[e.player]?.first, e.clickedBlock?.location)
-                e.player.sendMessage("${ChatColor.RED}Set the first migration location!!")
+                e.player.sendMessage(literalText("Set the first migration location!!") { color = KColors.GREEN})
             }
         }
 

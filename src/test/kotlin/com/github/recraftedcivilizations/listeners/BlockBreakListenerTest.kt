@@ -39,7 +39,7 @@ internal class BlockBreakListenerTest {
 
         every { e.block } returns block
         every { removeRegenOre.isInRemoveMode(any()) } returns false
-        every { block.getType() } returns Material.IRON_ORE
+        every { block.type } returns Material.IRON_ORE
         every { block.location } returns l
         every { l.block } returns block
         every { configParser.respawnTimes } returns mapOf<Material, Int>(Pair(Material.IRON_ORE, 100)).toMutableMap()
@@ -73,7 +73,7 @@ internal class BlockBreakListenerTest {
 
         every { e.block } returns block
         every { removeRegenOre.isInRemoveMode(any()) } returns false
-        every { block.getType() } returns Material.IRON_ORE
+        every { block.type } returns Material.IRON_ORE
         every { block.location } returns l
         every { l.block } returns block
         every { configParser.respawnTimes } returns mapOf<Material, Int>(Pair(Material.IRON_ORE, 100)).toMutableMap()
@@ -95,7 +95,7 @@ internal class BlockBreakListenerTest {
         }
 
 
-        verify(exactly = 1) { block.setType(Material.BEDROCK) }
+        verify(exactly = 1) { block.type = Material.BEDROCK }
 
     }
 }

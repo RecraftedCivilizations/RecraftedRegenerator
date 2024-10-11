@@ -1,13 +1,25 @@
 package com.github.recraftedcivilizations.commands
 
+import net.axay.kspigot.commands.command
+import net.axay.kspigot.commands.runs
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class PlaceRegenOre: CommandExecutor {
+class PlaceRegenOre {
     private val playerInRegenMode: MutableSet<Player> = emptySet<Player>().toMutableSet()
+
+    init {
+
+        command("oreregen") {
+            runs {
+                onCommand(player)
+            }
+        }
+
+    }
 
     /**
      * Executes the given command, returning its success.
@@ -21,7 +33,7 @@ class PlaceRegenOre: CommandExecutor {
      * @param args Passed command arguments
      * @return true if a valid command, otherwise false
      */
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+    private fun onCommand(sender: CommandSender): Boolean {
         if(sender !is Player){ sender.sendMessage("Stupid console ape!!"); return true }
 
         if (sender in playerInRegenMode){

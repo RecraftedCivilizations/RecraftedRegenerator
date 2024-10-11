@@ -10,6 +10,9 @@ import com.github.recraftedcivilizations.listeners.BlockBreakListener
 import com.github.recraftedcivilizations.listeners.BlockPlaceListener
 import com.github.recraftedcivilizations.listeners.RightClickListener
 import com.github.recraftedcivilizations.runnables.Regenerator
+import net.axay.kspigot.commands.command
+import net.axay.kspigot.commands.runs
+import net.axay.kspigot.extensions.bukkit.register
 import net.axay.kspigot.main.KSpigot
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -29,22 +32,16 @@ class RecraftedRegenerator: KSpigot() {
         configParser.load()
 
         val regenCommand = PlaceRegenOre()
-        assert (this.getCommand("oreregen") != null)
-        this.getCommand("oreregen")?.setExecutor(regenCommand)
 
-        Bukkit.getLogger().info("Registered command")
 
         dataParser = DataParser(YAMLBlockParser(this.dataFolder.path), CachedTimeParser())
 
         val migrator = MigrateOres(configParser, dataParser)
-        this.getCommand("migrateores")?.setExecutor(migrator)
 
         val removeRegenOre = RemoveRegenOre()
-        this.getCommand("removeregen")?.setExecutor(removeRegenOre)
 
         Bukkit.getPluginManager().registerEvents(BlockBreakListener(dataParser, configParser, removeRegenOre), this)
         Bukkit.getPluginManager().registerEvents(BlockPlaceListener(regenCommand, dataParser, configParser), this)
-        Bukkit.getPluginManager().registerEvents(migrator, this)
         Bukkit.getPluginManager().registerEvents(RightClickListener(dataParser), this)
 
 
