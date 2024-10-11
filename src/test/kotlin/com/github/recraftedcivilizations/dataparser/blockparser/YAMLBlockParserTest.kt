@@ -4,6 +4,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.junit.jupiter.api.AfterEach
@@ -52,16 +53,32 @@ internal class YAMLBlockParserTest {
 
     @Test
     fun isStored() {
+        // FUCK THIS STUPID MOCKING WHY CAN'T I MOCK THE LOCATION CORRECTLY
 
-        val block: Block = mockk(null, true)
+        val block: Block = mockk(relaxed = true)
+        val location = Location(null, 0.0, 0.0, 0.0)
+        every { block.location } returns location
+
+
+        // Store the block
         parser.storeBlock(block)
 
+        // Assert that block is stored
         assert(parser.isStored(block.location))
 
-        val block2: Block = mockk(null, true)
-        assert(!parser.isStored(block2.location))
+        // Creating second block and location
+        val block2: Block = mockk(relaxed = true)
+        val location2 = Location(null, 1.0, 1.0, 1.0)
+        every { block2.location } returns location2
 
+        // Debugging: printing hash codes to check uniqueness
+        println(block.location.hashCode())
+        println(block2.location.hashCode())
+
+        // Assert that block2 is not stored
+        assert(!parser.isStored(block2.location))
     }
+
 
     @Test
     fun removeBlock() {
