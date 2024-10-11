@@ -10,17 +10,18 @@ import com.github.recraftedcivilizations.listeners.BlockBreakListener
 import com.github.recraftedcivilizations.listeners.BlockPlaceListener
 import com.github.recraftedcivilizations.listeners.RightClickListener
 import com.github.recraftedcivilizations.runnables.Regenerator
+import net.axay.kspigot.main.KSpigot
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
-class RecraftedRegenerator: JavaPlugin() {
+class RecraftedRegenerator: KSpigot() {
     private lateinit var dataParser: DataParser
 
     companion object{
         lateinit var plugin: JavaPlugin
     }
 
-    override fun onEnable(){
+    override fun startup() {
 
         saveDefaultConfig()
 
@@ -28,7 +29,10 @@ class RecraftedRegenerator: JavaPlugin() {
         configParser.load()
 
         val regenCommand = PlaceRegenOre()
+        assert (this.getCommand("oreregen") != null)
         this.getCommand("oreregen")?.setExecutor(regenCommand)
+
+        Bukkit.getLogger().info("Registered command")
 
         dataParser = DataParser(YAMLBlockParser(this.dataFolder.path), CachedTimeParser())
 
@@ -51,7 +55,7 @@ class RecraftedRegenerator: JavaPlugin() {
 
     }
 
-    override fun onDisable() {
+    override fun shutdown() {
         Bukkit.getLogger().info("Respawning all blocks!!")
         for((location, time) in dataParser.getBlocksToRespawn().entries){
             location.block.type = dataParser.getBlockType(location)!!

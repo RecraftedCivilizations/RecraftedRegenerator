@@ -6,13 +6,6 @@ plugins {
 group 'com.github.recraftedcivilizations'
 version '1.0-SNAPSHOT'
 
-// Custom settings that will go into the plugin.yml
-// and will be used for publishing
-def pluginName = 'RecraftedRegenerator'
-def author = ['DarkVanityOfLigh']
-// Leave null for the latest API or fill in your wanted API version eg. 1.18
-def apiVersion = '1.18-R0.1-SNAPSHOT'
-
 
 repositories {
     mavenCentral()
@@ -34,25 +27,10 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(21)
 }
-
-processResources {
-    // If the version is undefined we want to find the version gradle got
-    if (apiVersion == null){
-        // So find the module at runtime level and get the version
-        apiVersion = configurations.compileClasspath.resolvedConfiguration.firstLevelModuleDependencies.findAll {
-            it.moduleName == "spigot-api"}[0].moduleVersion
-    }
-
-    filesMatching('plugin.yml'){
-        // Expand all variables and get the numerical only api version
-        expand([pluginName: pluginName, version: version, author: author, api: apiVersion.split('-')[0]])
-    }
-
-}
-
 
 tasks.assemble {
     dependsOn(tasks.reobfJar)

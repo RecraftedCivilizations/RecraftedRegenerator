@@ -1,36 +1,6 @@
-name: ${pluginName}
-main: com.github.recraftedcivilizations.${pluginName}
-softdepend: []
-version: ${version}
-author: ${author}
-api-version: ${api-version}
-description: Regenerate ores
-
-permissions:
-  recraftedregenerator.regen:
-    default: false
-    description: Allows you to call the /oreregen command, which in turn alows you to place regenerativ blocks
-
-  recraftedregenerator.migrate:
-    default: false
-    description: Allows you to migrate an area of blocks instead of setting them manually
-
-  recraftedregenerator.removeregen:
-    default: false
-    description: Allows you to delete regenerative ores
-
-commands:
-  oreregen:
-    permission: recraftedregenerator.regen
-    permission-message: You don't have the permission to regenerate ores
-    usage: /oreregen
-
-  migrateores:
-    permission: recraftedregenerator.migrate
-    permission-message: You don't have the permission to migrate blocks
-    usage: /migrateores <setup|migrate>
-
-  removeregen:
-    permission: recraftedregenerator.removeregen
-    permission-message: You don't have the permission to remove regenerative blocks
-    usage: /removerege
+name: RecraftedRegenerator
+version: 1.0
+main: com.github.recraftedcivilizations.RecraftedRegenerator
+api-version: 1.19
+libraries:
+  - "net.axay:kspigot:1.21.0"
