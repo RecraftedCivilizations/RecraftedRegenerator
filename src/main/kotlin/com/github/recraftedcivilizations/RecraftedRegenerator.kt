@@ -6,13 +6,7 @@ import com.github.recraftedcivilizations.commands.RemoveRegenOre
 import com.github.recraftedcivilizations.dataparser.DataParser
 import com.github.recraftedcivilizations.dataparser.blockparser.YAMLBlockParser
 import com.github.recraftedcivilizations.dataparser.timeparser.CachedTimeParser
-import com.github.recraftedcivilizations.listeners.BlockBreakListener
-import com.github.recraftedcivilizations.listeners.BlockPlaceListener
-import com.github.recraftedcivilizations.listeners.RightClickListener
 import com.github.recraftedcivilizations.runnables.Regenerator
-import net.axay.kspigot.commands.command
-import net.axay.kspigot.commands.runs
-import net.axay.kspigot.extensions.bukkit.register
 import net.axay.kspigot.main.KSpigot
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -31,14 +25,14 @@ class RecraftedRegenerator: KSpigot() {
         val configParser = ConfigParser(this.config)
         configParser.load()
 
-        val regenCommand = PlaceRegenOre()
+        val regenCommand = PlaceRegenOre(configParser, dataParser)
 
 
         dataParser = DataParser(YAMLBlockParser(this.dataFolder.path), CachedTimeParser())
 
         val migrator = MigrateOres(configParser, dataParser)
 
-        val removeRegenOre = RemoveRegenOre()
+        val removeRegenOre = RemoveRegenOre(configParser, dataParser)
 
 
         val regenerator = Regenerator(dataParser, configParser)
