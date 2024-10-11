@@ -1,9 +1,6 @@
 plugins {
-    id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '+'
-    id 'org.jetbrains.dokka' version '+'
-    id 'maven-publish'
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'org.jetbrains.kotlin.jvm' version '2.0.10'
+    id 'io.papermc.paperweight.userdev' version '1.7.3'
 }
 
 group 'com.github.recraftedcivilizations'
@@ -16,47 +13,29 @@ def author = ['DarkVanityOfLigh']
 // Leave null for the latest API or fill in your wanted API version eg. 1.18
 def apiVersion = '1.18-R0.1-SNAPSHOT'
 
-// Base repos
+
 repositories {
     mavenCentral()
-    maven {
-        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-        content {
-            includeGroup 'org.bukkit'
-            includeGroup 'org.spigotmc'
-        }
-    }
 }
 
-//=====================================Dependencies=====================================//
-
-// Kotlin stuff
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
+    implementation "net.axay:kspigot:1.21.0"
+}
+
+dependencies {
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    testImplementation "io.mockk:mockk:1.12.2"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-}
 
-// Minecraft deps
-dependencies {
-    // If the version is null we get the newest one
-    if(apiVersion == null){
-        compileOnly 'org.spigotmc:spigot-api:+'
-        testImplementation 'org.spigotmc:spigot-api:+'
-    }else{
-        // Else we get the defined one
-        compileOnly "org.spigotmc:spigot-api:${apiVersion}"
-        testImplementation "org.spigotmc:spigot-api:${apiVersion}"
-    }
 }
-
-dependencies {
-    testImplementation "io.mockk:mockk:1.12.2"
-}
-//======================================================================================//
 
 test {
     useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(21)
 }
 
 processResources {
@@ -74,33 +53,7 @@ processResources {
 
 }
 
-// Jvm Target
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
 
-// Publishing
-publishing {
-    publications {
-        recraftedCore(MavenPublication) {
-            groupId = this.group
-            artifactId = pluginName
-            version = this.version
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            name = 'RecraftedCivilizations'
-            //credentials(PasswordCredentials)
-            url = 'https://repo.repsy.io/mvn/darkvanityoflight/recraftedcivilizations'
-
-            credentials {
-                username project.RecraftedCivilizationsUsername
-                password project.RecraftedCivilizationsPassword
-            }
-        }
-    }
+tasks.assemble {
+    dependsOn(tasks.reobfJar)
 }
